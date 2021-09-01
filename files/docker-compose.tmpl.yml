@@ -1,0 +1,19 @@
+version: "3.7"
+
+# TODO maybe attach other services like Graphite or Prometheus to support Grafana
+services:
+  grafana:
+    container_name: poc_grafana
+    image: grafana/grafana:${version}
+    restart: always
+    networks:
+      - backend
+    ports:
+      - $GRAFANA_PROXY_PORT:3000
+    volumes:
+      - /var/log/grafana:/var/log/grafana
+      - /var/lib/grafana:/var/lib/grafana
+      - $GRAFANA_ROOT/grafana.ini:/etc/grafana/grafana.ini
+
+networks:
+  backend:
