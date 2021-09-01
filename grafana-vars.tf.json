@@ -1,0 +1,78 @@
+{
+  "variable": [
+    {
+      "project_namespace": {
+        "default": "",
+        "type": "string"
+      }
+    },
+    {
+      "ops_email": {
+        "default": "tech@foo.xyz",
+        "type": "string"
+      }
+    },
+    {
+      "ops_user": {
+        "default": "ubuntu",
+        "type": "string"
+      }
+    },
+    {
+      "grafana_domain": {
+        "default": "localhost",
+        "description": "See https://grafana.com/docs/grafana/latest/administration/configuration/#server",
+        "type": "string"
+      }
+    },
+    {
+      "grafana_version": {
+        "default": "7.1.5",
+        "description": "Check software versions at https://grafana.com/docs/grafana/latest/release-notes/",
+        "type": "string"
+      }
+    },
+    {
+      "grafana_proxy_port": {
+        "default": "3000",
+        "description": "Set this to the port you want to proxy the Grafana server on.",
+        "type": "string"
+      }
+    },
+    {
+      "instance_ami_name": {
+        "default": "aws-grafana",
+        "description": "The AMI name containing docker to be able to run Grafana",
+        "type": "string"
+      }
+    },
+    {
+      "instance_ami_id": {
+        "default": "",
+        "description": "The AMI ID containing docker to be able to run Grafana",
+        "type": "string"
+      }
+    },
+    {
+      "instance_type": {
+        "default": "t3a.micro",
+        "description": "Choose from t4g < t3a < t3 on pricing (micro/small/medium)",
+        "type": "string"
+      }
+    },
+    {
+      "instance_key_name": {
+        "default": "",
+        "description": "The ssh keypair name that is provided to the instance. If empty, a new one will be created.",
+        "type": "string"
+      }
+    },
+    {
+      "instance_root_disk_size": {
+        "default": 8,
+        "description": "Disk size of the root block device. 8gb is usually enough.",
+        "type": "number"
+      }
+    }
+  ]
+}
