@@ -39,3 +39,5 @@ terraform.r
 ### Project specific ###
 .env*
 !.env.example
+plan.out
+.terraform.lock.hcl

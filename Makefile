@@ -14,7 +14,7 @@ define terraform_vars
 -e 's/^#.*//' \
 -e '/^[[:space:]]*$$/d' .env \
 | awk '{split(\$$0,a,\"=\");new_var=tolower(a[1])\"=\"a[2];print new_var}' > /tmp/.env.tmp;"
-@bash -c "sed -e 's/^.*/TF_VAR_&/' /tmp/.env.tmp > $(PROVISION_ROOT)/.env.tf; rm -f .env.tmp;"
+@bash -c "sed -e 's/^.*/TF_VAR_&/' /tmp/.env.tmp > $(PROVISION_ROOT)/.env.tf; rm -f /tmp/.env.tmp;"
 endef
 
 
@@ -34,10 +34,10 @@ help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
 
-.PHONY: deploy-machine-image
-deploy-machine-image: ## Deploy a machine image with Packer
+.PHONY: machine-image
+machine-image: ## Deploy a machine image with Packer
 ifeq ($(BUILD_SOURCE), )
-	@echo "Usage: BUILD_SOURCE=grafana make deploy-machine-image"
+	@echo "Usage: BUILD_SOURCE=grafana make machine-image"
 	@echo ""
 	@echo "See machine-images/*.pkr.hcl build blocks for names."
 	@echo "Valid values are: grafana, grafana-nginx"
@@ -78,6 +78,6 @@ destroy: ## Tear down Grafana resources with terraform destroy
 	$(MAKE) $@
 else
 destroy:
-	@echo "••• Deploying Grafana"
+	@echo "••• Tearing down Grafana"
 	@set -a; . .env.tf; set +a; terraform destroy -var-file grafana-vars.tfvars
 endif
