@@ -34,37 +34,61 @@ data "template_file" "grafana_ini" {
   }
 }
 
+# Since the docker-compose.yml and grafana config files are loaded here,
+# the following user_data is needed, as opposed to configuring everything
+# from the packer file.
+# An alternative would be to configure your own Docker image and pull that
+# through the compose file via your image registry like ECR. This would be
+# the preferred approach since debugging this user_data is 🤯
 locals {
   grafana_root = "/home/${var.ops_user}/grafana-dashboard"
-  user_data    = <<EOF
+  user_data    = <<EOS
 #!/bin/bash
+set -euo pipefail
 
 su ${var.ops_user}  <<'RUNASUSER'
 DOCKER_FILE=/home/${var.ops_user}/docker-compose.yml
 GRAFANA_CONFIG=${local.grafana_root}/grafana.ini
 
-sudo usermod -a -G docker ${var.ops_user}
-sudo mkdir -p /var/lib/grafana
-sudo chown -R 472:root /var/lib/grafana
-sudo chown -R 472:root /var/log/grafana
-sudo chmod -R 755 /var/lib/grafana
-sudo chmod -R 755 /var/log/grafana
+# Prepare folders
 mkdir -p ${local.grafana_root}
-cd ${local.grafana_root}
-echo "export GRAFANA_PROXY_PORT=${var.grafana_proxy_port}" >> /home/${var.ops_user}/.bashrc
-echo "export GRAFANA_ROOT=${local.grafana_root}" >> /home/${var.ops_user}/.bashrc
+sudo mkdir -p /var/{lib,log}/grafana
+sudo chown -R 472:root /var/{lib,log}/grafana
+sudo chmod -R 755 /var/{lib,log}/grafana
 
+# Prepare config files
 if [ ! -f "$DOCKER_FILE" ]; then
     echo '${data.template_file.docker_compose_file.rendered}' > $DOCKER_FILE
 fi
-
 if [ ! -f "$GRAFANA_CONFIG" ]; then
     echo '${data.template_file.grafana_ini.rendered}' > $GRAFANA_CONFIG
 fi
-docker-compose up -d
+
+# Add this user to docker group
+sudo usermod -a -G docker ${var.ops_user}
+
+# Set up this docker-compose as a systemd service
+cat <<-TEMPLATE | sudo tee -a /etc/systemd/system/grafana.service
+[Unit]
+Description="Grafana service"
+After=network.target
+
+[Service]
+Type=simple
+User=${var.ops_user}
+Environment=GRAFANA_PROXY_PORT=${var.grafana_proxy_port}
+Environment=GRAFANA_ROOT=${local.grafana_root}
+ExecStart=/usr/local/bin/docker-compose -f /home/${var.ops_user}/docker-compose.yml up
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+TEMPLATE
+
+sudo systemctl start grafana.service
 RUNASUSER
 
-EOF
+EOS
 }
 
 
@@ -72,40 +96,6 @@ resource "aws_key_pair" "ec2_grafana" {
   count      = var.instance_key_name != "" ? 1 : 0
   key_name   = var.instance_key_name
   public_key = file("~/.ssh/${var.instance_key_name}.pub")
-}
-
-
-# https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateSecurityGroup.html
-resource "aws_security_group" "grafana_proxy_public_this" {
-  vpc_id = local.vpc_id
-  name   = "sec-grp-${local.label}"
-
-  ingress {
-    from_port   = var.grafana_proxy_port
-    to_port     = var.grafana_proxy_port
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "public to ec2 (via assigned port)"
-  }
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "public ssh to ec2 (via 22)"
-  }
-
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-    description      = "ec2 to public"
-  }
-
-  tags = { "Name" : "sec-grp-${local.label}" }
 }
 
 
@@ -136,9 +126,10 @@ module "grafana_dashboard" {
 
   key_name   = var.instance_key_name != "" ? var.instance_key_name : "auto-generated"
   monitoring = true
-  vpc_security_group_ids = [
-    aws_security_group.grafana_proxy_public_this.id
-  ]
+  vpc_security_group_ids = concat(
+    [aws_security_group.grafana_proxy_public_this.id],
+    var.instance_ssh_enabled != "true" ? [] : [aws_security_group.grafana_ssh_public_this[0].id]
+  )
   subnet_id                   = local.subnet_id
   associate_public_ip_address = true
   user_data_base64            = base64encode(local.user_data)
