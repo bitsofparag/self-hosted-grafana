@@ -34,7 +34,7 @@
     },
     {
       "grafana_proxy_port": {
-        "default": "3000",
+        "default": "3010",
         "description": "Set this to the port you want to proxy the Grafana server on.",
         "type": "string"
       }
