@@ -1,5 +1,6 @@
 # Choose a backend:
 
+# ------------------------------
 # 1. Uncomment the following if using local state
 # ------------------------------
 # terraform {
@@ -8,6 +9,8 @@
 #   }
 # }
 
+
+# ------------------------------
 # 2. Uncomment the following if using S3 for state
 # ------------------------------
 # terraform {
@@ -21,6 +24,8 @@
 #   }
 # }
 
+
+# ------------------------------
 # 3. Uncomment the following if using TF Cloud and set "organization"
 # ------------------------------
 # terraform {

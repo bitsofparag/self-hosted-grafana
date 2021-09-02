@@ -1,5 +1,6 @@
 # Choose an existing VPC data source
 
+# ------------------------------
 # 1. Uncomment the following if using default VPC
 # ------------------------------
 # data "aws_vpc" "default" {
@@ -18,6 +19,8 @@
 #   subnet_id = data.aws_subnets.default.ids[0]
 # }
 
+
+# ------------------------------
 # 2. Uncomment the following if VPC data is stored in S3. Check your vpc infra code.
 # ------------------------------
 # data "terraform_remote_state" "networking" {
@@ -36,6 +39,8 @@
 #   vpc_id = data.terraform_remote_state.networking.outputs.vpc_id
 # }
 
+
+# ------------------------------
 # 3. Uncomment the following if VPC data is in TF Cloud.
 #    Check your vpc infra code or TF Cloud account.
 # ------------------------------
