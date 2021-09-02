@@ -27,7 +27,7 @@ So, here's some scripts to help you set it up on your favorite cloud provider (*
 
 1. `cp .env.example .env`.
 
-2. Fill the values in the `.env` file where applicable. The empty keys can be left empty for the default runs.
+2. Update the values in the `.env` file where applicable. *The empty keys can be left empty for the default runs*.
 
 3. Open `backend.tf` and choose the relevant backend. _Uncomment 1 if you're not sure._
 

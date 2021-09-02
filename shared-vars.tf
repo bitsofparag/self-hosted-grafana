@@ -5,7 +5,7 @@
 variable "profile" {
   description = "AWS user authorized to manage deployments"
   type        = string
-  default     = "concr"
+  default     = "foo"
 }
 
 variable "default_region" {
@@ -16,20 +16,20 @@ variable "default_region" {
 
 variable "organization" {
   type        = string
-  default     = "concr"
+  default     = "foo"
   description = "The organization name where this workspace is created."
 }
 
 ## Labels and tags
 variable "project" {
   type        = string
-  default     = "concr"
+  default     = "foo"
   description = "Project name (e.g `concr`)"
 }
 
 variable "environment" {
   type        = string
-  default     = "testing"
+  default     = ""
   description = "Environment (e.g. `production`, `testing`, `staging`)."
 }
 

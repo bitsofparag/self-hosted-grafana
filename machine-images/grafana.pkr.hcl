@@ -1,7 +1,9 @@
 #------------------------------------------------------------------------------
-# OCI-compliant image builder for webserver
+# OCI-compliant image builder for grafana
 # This builder prepares an Amazon AMI and provisions it with:
-# - Nginx
+# - Docker
+# - Nginx (when specified)
+# Grafana is NOT installed in this machine image
 #------------------------------------------------------------------------------
 # Shared variables for packer files.
 # See https://www.packer.io/docs/templates/hcl_templates/variables for more info.
