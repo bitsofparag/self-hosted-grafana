@@ -4,8 +4,7 @@ Grafana is great. For not-too-heavy visualizations and prettier versions of your
 
 So, here's some scripts to help you set it up on your favorite cloud provider (**NOTE:** currently only supports AWS).
 
-    You can also cloen this repo and reconfigure an existing Grafana instance with
-    the instructions below.
+*You can also clone this repo and reconfigure an existing Grafana instance with the instructions below.*
 
 ## Pre-requisites
 
