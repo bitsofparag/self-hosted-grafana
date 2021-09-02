@@ -22,18 +22,15 @@ output "grafana_dashboard_private_ips" {
   value = module.grafana_dashboard.private_ip
 }
 
-output "user_info" {
+output "grafana_dashboard_ssh_config" {
   value = <<-EOS
-
-SSH config is:
-
 Host           grafana_dashboard_staging
 Hostname       ${module.grafana_dashboard.public_ip[0]}
 User           ubuntu
 IdentitiesOnly yes
-
-=========
-
-Grafana is running on: http://${module.grafana_dashboard.public_dns[0]}:${var.grafana_proxy_port}
 EOS
+}
+
+output "grafana_dashboard_url" {
+  value = "http://${module.grafana_dashboard.public_dns[0]}:${var.grafana_proxy_port}"
 }
