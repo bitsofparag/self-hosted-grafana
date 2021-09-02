@@ -68,6 +68,13 @@
       }
     },
     {
+      "instance_ssh_enabled": {
+        "default": "false",
+        "description": "Set to true if you want to enable standard SSH access to the deployed instance.",
+        "type": "string"
+      }
+    },
+    {
       "instance_root_disk_size": {
         "default": 8,
         "description": "Disk size of the root block device. 8gb is usually enough.",
