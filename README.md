@@ -29,11 +29,18 @@ So, here's some scripts to help you set it up on your favorite cloud provider (*
 
 2. Fill the values in the `.env` file where applicable. The empty keys can be left empty for the default runs.
 
-3. **Optionally**, set `INSTANCE_KEY_NAME` to the SSH key-pair file name you created above *(what you entered for "key_name_ec2")*.
+3. Open `backend.tf` and choose the relevant backend. _Uncomment 1 if you're not sure._
 
-4. Open `backend.tf` and choose the relevant backend. _Uncomment 1 if you're not sure._
+4. Open `vpc-data.tf` and choose the relevant data source for VPC. _Uncomment 1 if you're not sure._
 
-5. Open `vpc-data.tf` and choose the relevant data source for VPC. _Uncomment 1 if you're not sure._
+
+If you want to enable SSH access to the deployed instance, open `.env` file and:
+
+1. set `INSTANCE_KEY_NAME` to the SSH key-pair file name you created above *(what you entered for "key_name_ec2")*.
+
+2. set `INSTANCE_SSH_ENABLED` to `true`.
+
+---
 
 ## Run
 
@@ -45,7 +52,7 @@ So, here's some scripts to help you set it up on your favorite cloud provider (*
 
 4. Get the username from the CLI with `terraform output grafana_user`
 
-5. Get the password from the CLI with `terraform output -raw grafana_password`. *Store the password in your password manager!*.
+5. Get the password from the CLI with `terraform output -raw grafana_password`. *Store the password in your password manager!*
 
 6. Check the cloud console for the instance to be ready.
 
@@ -53,7 +60,7 @@ So, here's some scripts to help you set it up on your favorite cloud provider (*
 
 8. Log in with the above credentials and configure as needed.
 
-9. (Optional) Copy the ssh config with `terraform output grafana_dashboard_ssh_config`.
+9. (Optional) Copy the ssh config with `terraform output grafana_dashboard_ssh_config`
 
 ## Run with Nginx
 
