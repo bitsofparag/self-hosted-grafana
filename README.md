@@ -126,9 +126,10 @@ ways:
 
 # Planned (in order)
 
-- [ ] Alerting settings: Grafana and system related
+- [ ] Alerting settings: system related
 - [ ] Backups for grafana.db and recreating with backups
 - [ ] Log rotation
+- [ ] Email settings for Grafana with alerting enabled
 - [ ] Provisioning with a default dashboard configuration
 - [ ] Provisioning with a default Postgres data source configuration
 - [ ] Nginx + Grafana setup
