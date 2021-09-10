@@ -41,7 +41,7 @@
     },
     {
       "instance_ami_name": {
-        "default": "aws-grafana",
+        "default": "aws-docker",
         "description": "The AMI name containing docker to be able to run Grafana",
         "type": "string"
       }

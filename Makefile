@@ -43,7 +43,7 @@ ifeq ($(BUILD_SOURCE), )
 	@echo "Valid values are: grafana, grafana-nginx"
 	exit 1
 endif
-	@packer build -only *.$(BUILD_SOURCE) machine-images/grafana.pkr.hcl
+	@packer build -only *.$(BUILD_SOURCE) machine-images/default.pkr.hcl
 
 
 .PHONY: plan apply destroy
@@ -55,7 +55,7 @@ plan: ## Plan Grafana resources with terraform plan
 else
 plan:
 	@echo "••• Planning Grafana deployment"
-	@set -a; . .env.tf; set +a; terraform init; terraform plan -var-file=grafana-vars.tfvars -out=plan.out
+	@set -a; . .env.tf; set +a; terraform init; terraform plan -var-file=grafana-vars.tfvars
 endif
 
 
