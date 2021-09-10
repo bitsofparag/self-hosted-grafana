@@ -1,7 +1,7 @@
 # Choose an existing VPC data source
 
 # ------------------------------
-# 1. Uncomment the following if using default VPC
+# (1) Uncomment the following if using default VPC
 # ------------------------------
 # data "aws_vpc" "default" {
 #   default = true
@@ -21,7 +21,7 @@
 
 
 # ------------------------------
-# 2. Uncomment the following if VPC data is stored in S3. Check your vpc infra code.
+# (2) Uncomment the following if VPC data is stored in S3. Check your vpc infra code.
 # ------------------------------
 # data "terraform_remote_state" "networking" {
 #   backend = "s3"
@@ -41,7 +41,7 @@
 
 
 # ------------------------------
-# 3. Uncomment the following if VPC data is in TF Cloud.
+# (3) Uncomment the following if VPC data is in TF Cloud.
 #    Check your vpc infra code or TF Cloud account.
 # ------------------------------
 # data "terraform_remote_state" "networking" {

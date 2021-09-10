@@ -1,7 +1,7 @@
 # Choose a backend:
 
 # ------------------------------
-# 1. Uncomment the following if using local state
+# (1) Uncomment the following if using local state
 # ------------------------------
 # terraform {
 #   backend "local" {
@@ -11,7 +11,7 @@
 
 
 # ------------------------------
-# 2. Uncomment the following if using S3 for state
+# (2) Uncomment the following if using S3 for state
 # ------------------------------
 # terraform {
 #   backend "s3" {
@@ -26,7 +26,7 @@
 
 
 # ------------------------------
-# 3. Uncomment the following if using TF Cloud and set "organization"
+# (3) Uncomment the following if using TF Cloud and set "organization"
 # ------------------------------
 # terraform {
 #   backend "remote" {
