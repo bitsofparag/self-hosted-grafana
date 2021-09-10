@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# OCI-compliant image builder for grafana
+# OCI-compliant image builder
 # This builder prepares an Amazon AMI and provisions it with:
 # - Docker
 # - Nginx (when specified)
@@ -38,29 +38,24 @@ variable "aws_secret_access_key" {
 
 variable "base_ami" {
   type    = string
-  default = env("UBUNTU_AMI")
+  default = env("UBUNTU_AMI_ID")
 }
 
 # ----- webserver specific vars
 variable "ami_name" {
   type = string
   description = "The id of the AMI image to use as webserver"
-  default = "aws-grafana"
+  default = "aws-docker"
 
   validation {
-    condition     = can(regex("^aws-grafana", var.ami_name))
-    error_message = "The image_id value must be a valid AMI id, starting with \"aws-grafana\"."
+    condition     = can(regex("^aws-", var.ami_name))
+    error_message = "The image_id value must be a valid AMI id, starting with \"aws-\"."
   }
 }
 
 variable "instance_type" {
   type    = string
   default = "t3.micro"
-}
-
-variable "grafana_version" {
-  type    = string
-  default = env("GRAFANA_VERSION")
 }
 
 variable "nginx_version" {
@@ -85,9 +80,9 @@ locals { timestamp = regex_replace(timestamp(), "[- TZ:]", "") }
 # build blocks. A build block runs provisioner and post-processors on a
 # source. Read the documentation for source blocks here:
 # https://www.packer.io/docs/templates/hcl_templates/blocks/source
-source "amazon-ebs" "grafana" {
+source "amazon-ebs" "docker" {
   access_key                  = var.aws_access_key_id
-  ami_name                    = "aws-grafana-${var.grafana_version}-${local.timestamp}"
+  ami_name                    = "aws-docker-${local.timestamp}"
   associate_public_ip_address = false
   instance_type               = var.instance_type
   profile                     = var.aws_profile
@@ -98,14 +93,15 @@ source "amazon-ebs" "grafana" {
   tags = {
     CreatedAt = local.timestamp
     Name      = var.ami_name
-    Release   = "${var.grafana_version}-${local.timestamp}"
+    Release   = local.timestamp
+    Version   = var.docker_compose_version
     Service   = "ami"
   }
 }
 
-source "amazon-ebs" "grafana-nginx" {
+source "amazon-ebs" "docker-nginx" {
   access_key                  = var.aws_access_key_id
-  ami_name                    = "aws-grafana-nginx-${var.grafana_version}-${local.timestamp}"
+  ami_name                    = "aws-docker-nginx-${local.timestamp}"
   associate_public_ip_address = false
   instance_type               = var.instance_type
   profile                     = var.aws_profile
@@ -116,7 +112,8 @@ source "amazon-ebs" "grafana-nginx" {
   tags = {
     CreatedAt = local.timestamp
     Name      = var.ami_name
-    Release   = "${var.grafana_version}-${local.timestamp}"
+    Release   = local.timestamp
+    Version   = var.nginx_version
     Service   = "ami"
   }
 }
@@ -125,8 +122,8 @@ source "amazon-ebs" "grafana-nginx" {
 # documentation for build blocks can be found here:
 # https://www.packer.io/docs/templates/hcl_templates/blocks/build
 build {
-  name = "grafana"
-  sources = ["source.amazon-ebs.grafana"]
+  name = "docker"
+  sources = ["source.amazon-ebs.docker"]
 
   provisioner "shell" {
     pause_before    = "5s"
@@ -150,8 +147,8 @@ build {
 
 
 build {
-  name = "grafana-nginx"
-  sources = ["source.amazon-ebs.grafana-nginx"]
+  name = "docker-nginx"
+  sources = ["source.amazon-ebs.docker-nginx"]
 
   provisioner "shell" {
     pause_before    = "5s"
