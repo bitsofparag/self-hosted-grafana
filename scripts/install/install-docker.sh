@@ -21,3 +21,9 @@ $apt_install docker-ce docker-ce-cli containerd.io
 echo ">>>>> Check docker status..."
 docker --version
 systemctl status docker --no-pager
+
+echo ">>>>> Install Compose V2..."
+mkdir -p ~/.docker/cli-plugins/
+curl -SL https://github.com/docker/compose/releases/download/v2.0.0-rc.3/docker-compose-linux-arm64 -o ~/.docker/cli-plugins/docker-compose
+chmod +x ~/.docker/cli-plugins/docker-compose
+docker compose --help

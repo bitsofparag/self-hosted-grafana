@@ -82,7 +82,7 @@ locals { timestamp = regex_replace(timestamp(), "[- TZ:]", "") }
 # https://www.packer.io/docs/templates/hcl_templates/blocks/source
 source "amazon-ebs" "docker" {
   access_key                  = var.aws_access_key_id
-  ami_name                    = "aws-docker-${local.timestamp}"
+  ami_name                    = "aws-docker-${var.image_version}-${local.timestamp}"
   associate_public_ip_address = false
   instance_type               = var.instance_type
   profile                     = var.aws_profile
@@ -101,7 +101,7 @@ source "amazon-ebs" "docker" {
 
 source "amazon-ebs" "docker-nginx" {
   access_key                  = var.aws_access_key_id
-  ami_name                    = "aws-docker-nginx-${local.timestamp}"
+  ami_name                    = "aws-docker-nginx-${var.image_version}-${local.timestamp}"
   associate_public_ip_address = false
   instance_type               = var.instance_type
   profile                     = var.aws_profile
