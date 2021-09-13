@@ -8,15 +8,17 @@ So, here's some scripts to help you set it up on your favorite cloud provider (*
 
 ## Pre-requisites
 
-1. Ensure you have CLI access to your [cloud
+1. Fork this project on Github. If you cannot fork, clone it locally and set a different remote to your git provider.
+
+2. Ensure you have CLI access to your [cloud
    provider](https://en.wikipedia.org/wiki/Category:Cloud_computing_providers). For e.g, for AWS you
    will need the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` in order to deploy resources to AWS.`
 
-2. Install [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli#install-terraform).
+3. Install [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli#install-terraform).
 
-3. Install [Packer](https://learn.hashicorp.com/tutorials/packer/get-started-install-cli?in=packer/aws-get-started#installing-packer) to build [AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html).
+4. Install [Packer](https://learn.hashicorp.com/tutorials/packer/get-started-install-cli?in=packer/aws-get-started#installing-packer) to build [AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html).
 
-4. If you want to access the Grafana instance via SSH, ensure you have an SSH key pair in `~/.ssh`.
+5. If you want to access the Grafana instance via SSH, ensure you have an SSH key pair in `~/.ssh`.
    You can generate one with:
    ```
    ssh-keygen -t rsa -b 4096 -N '' -C foo@example.com -m PEM -f ~/.ssh/key_name_ec2
