@@ -55,7 +55,7 @@
     },
     {
       "instance_type": {
-        "default": "t3a.micro",
+        "default": "t4g.small",
         "description": "Choose from t4g < t3a < t3 on pricing (micro/small/medium)",
         "type": "string"
       }
