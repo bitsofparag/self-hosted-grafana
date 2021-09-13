@@ -68,6 +68,13 @@
       }
     },
     {
+      "instance_key_pub": {
+        "default": "",
+        "description": "The public key (user-provided as string) to set in the instance. If empty, the local ~/.ssh folder will be read.",
+        "type": "string"
+      }
+    },
+    {
       "instance_key_name_aws": {
         "default": "",
         "description": "The ssh keypair name (on AWS) that is provided to the instance. Conflicts with `instance_key_name_local`.",

@@ -95,7 +95,7 @@ EOS
 resource "aws_key_pair" "local" {
   count      = var.instance_key_name_local == "" ? 0 : 1
   key_name   = var.instance_key_name_local
-  public_key = file("~/.ssh/${var.instance_key_name_local}.pub")
+  public_key = var.instance_key_pub != "" ? var.instance_key_pub : file("~/.ssh/${var.instance_key_name_local}.pub")
 }
 
 
