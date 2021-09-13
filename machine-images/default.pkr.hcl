@@ -63,9 +63,9 @@ variable "nginx_version" {
   default = env("NGINX_VERSION")
 }
 
-variable "docker_compose_version" {
+variable "image_version" {
   type = string
-  default = env("DOCKER_COMPOSE_VERSION")
+  default = env("IMAGE_VERSION")
 }
 
 variable "ssh_username" {
@@ -94,7 +94,7 @@ source "amazon-ebs" "docker" {
     CreatedAt = local.timestamp
     Name      = var.ami_name
     Release   = local.timestamp
-    Version   = var.docker_compose_version
+    Version   = var.image_version
     Service   = "ami"
   }
 }
@@ -113,7 +113,7 @@ source "amazon-ebs" "docker-nginx" {
     CreatedAt = local.timestamp
     Name      = var.ami_name
     Release   = local.timestamp
-    Version   = var.nginx_version
+    Version   = "${var.image_version}-${var.nginx_version}"
     Service   = "ami"
   }
 }
@@ -132,7 +132,7 @@ build {
   }
 
   provisioner "shell" {
-    environment_vars = ["DOCKER_COMPOSE_VERSION=${var.docker_compose_version}"]
+    environment_vars = ["IMAGE_VERSION=${var.image_version}"]
     execute_command  = "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}"
     pause_before     = "5s"
     scripts          = ["${var.provision_root}/scripts/install/install-docker.sh"]
@@ -185,7 +185,6 @@ build {
   }
 
   provisioner "shell" {
-    environment_vars = ["DOCKER_COMPOSE_VERSION=${var.docker_compose_version}"]
     execute_command  = "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}"
     pause_before     = "5s"
     scripts          = ["${var.provision_root}/scripts/install/install-docker.sh"]

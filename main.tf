@@ -78,7 +78,7 @@ Type=simple
 User=${var.ops_user}
 Environment=GRAFANA_PROXY_PORT=${var.grafana_proxy_port}
 Environment=GRAFANA_ROOT=${local.grafana_root}
-ExecStart=/usr/local/bin/docker-compose -f /home/${var.ops_user}/docker-compose.yml up
+ExecStart=/usr/local/bin/docker compose -f /home/${var.ops_user}/docker-compose.yml up
 Restart=on-failure
 
 [Install]
