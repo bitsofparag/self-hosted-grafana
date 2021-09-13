@@ -37,6 +37,7 @@
 #
 # locals {
 #   vpc_id = data.terraform_remote_state.networking.outputs.vpc_id
+#   subnet_id = data.terraform_remote_state.networking.outputs.public_subnets[0]
 # }
 
 

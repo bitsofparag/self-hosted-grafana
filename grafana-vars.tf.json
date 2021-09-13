@@ -61,9 +61,16 @@
       }
     },
     {
-      "instance_key_name": {
+      "instance_key_name_local": {
         "default": "",
-        "description": "The ssh keypair name that is provided to the instance. If empty, a new one will be created.",
+        "description": "The ssh keypair name (on your local machine) that is provided to the instance. Conflicts with `instance_key_name_aws`.",
+        "type": "string"
+      }
+    },
+    {
+      "instance_key_name_aws": {
+        "default": "",
+        "description": "The ssh keypair name (on AWS) that is provided to the instance. Conflicts with `instance_key_name_local`.",
         "type": "string"
       }
     },

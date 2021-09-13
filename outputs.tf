@@ -24,7 +24,7 @@ output "grafana_dashboard_private_ips" {
 
 output "grafana_dashboard_ssh_config" {
   value = <<-EOS
-Host           grafana_dashboard_staging
+Host           ${var.project_namespace}_grafana_dashboard_staging
 Hostname       ${module.grafana_dashboard.public_ip[0]}
 User           ubuntu
 IdentitiesOnly yes

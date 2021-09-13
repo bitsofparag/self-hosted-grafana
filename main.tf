@@ -92,10 +92,10 @@ EOS
 }
 
 
-resource "aws_key_pair" "ec2_grafana" {
-  count      = var.instance_key_name != "" ? 1 : 0
-  key_name   = var.instance_key_name
-  public_key = file("~/.ssh/${var.instance_key_name}.pub")
+resource "aws_key_pair" "local" {
+  count      = var.instance_key_name_local == "" ? 0 : 1
+  key_name   = var.instance_key_name_local
+  public_key = file("~/.ssh/${var.instance_key_name_local}.pub")
 }
 
 
@@ -124,7 +124,7 @@ module "grafana_dashboard" {
   ami            = var.instance_ami_id != "" ? var.instance_ami_id : data.aws_ami.this.id
   instance_type  = var.instance_type
 
-  key_name   = var.instance_key_name != "" ? var.instance_key_name : "auto-generated"
+  key_name   = var.instance_key_name_local != "" ? var.instance_key_name_local : var.instance_key_name_aws
   monitoring = true
   vpc_security_group_ids = concat(
     [aws_security_group.grafana_proxy_public_this.id],
