@@ -91,7 +91,7 @@ TBA
 
 # Troubleshooting
 
-1. Token not found for Terraform Cloud
+### Token not found for Terraform Cloud
 
     ```
     │ Error: Required token could not be found
@@ -107,7 +107,7 @@ TBA
 
     Or run `terraform login` to generate a new token and use that for the commands.
 
-2. Backend configuration error messages
+### Backend configuration error messages
 
     ```
     Error: Backend configuration changed
