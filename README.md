@@ -93,37 +93,37 @@ TBA
 
 1. Token not found for Terraform Cloud
 
-```
-│ Error: Required token could not be found
-│
-│ Run the following command to generate a token for app.terraform.io:
-│     terraform login
-```
+    ```
+    │ Error: Required token could not be found
+    │
+    │ Run the following command to generate a token for app.terraform.io:
+    │     terraform login
+    ```
 
-If you have the Terraform Cloud user token, set the `TFC_TOKEN` in `.env` file.
+    If you have the Terraform Cloud user token, set the `TFC_TOKEN` in `.env` file.
 
-Alternately, `export TF_CLI_CONFIG_FILE=$HOME/.terraformrc` with the correct credentials. See [here](https://www.terraform.io/docs/cli/config/config-file.html)
-for a better understanding.
+    Alternately, `export TF_CLI_CONFIG_FILE=$HOME/.terraformrc` with the correct credentials. See [here](https://www.terraform.io/docs/cli/config/config-file.html)
+    for a better understanding.
 
-Or run `terraform login` to generate a new token and use that for the commands.
+    Or run `terraform login` to generate a new token and use that for the commands.
 
 2. Backend configuration error messages
 
-```
-Error: Backend configuration changed
+    ```
+    Error: Backend configuration changed
 
-...
-Error: Backend initialization required, please run "terraform init"
-```
+    ...
+    Error: Backend initialization required, please run "terraform init"
+    ```
 
-This happens when your `backend.tf` file has a different configuration from what you used in the
-previous deployment. This can be rectified by reconfiguring the backend in one of the following
-ways:
+    This happens when your `backend.tf` file has a different configuration from what you used in the
+    previous deployment. This can be rectified by reconfiguring the backend in one of the following
+    ways:
 
-- Check the state files to see which backend was used previously and update the `backend.tf` file
-  accordingly.
+    - Check the state files to see which backend was used previously and update the `backend.tf` file
+      accordingly.
 
-- If a new backend is to be used, then run `terraform init -reconfigure` from the CLI
+    - If a new backend is to be used, then run `terraform init -reconfigure` from the CLI
 
 
 # Planned (in order)
