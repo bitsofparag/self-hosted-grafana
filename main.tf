@@ -50,6 +50,11 @@ su ${var.ops_user}  <<'RUNASUSER'
 DOCKER_FILE=/home/${var.ops_user}/docker-compose.yml
 GRAFANA_CONFIG=${local.grafana_root}/grafana.ini
 
+# Install docker compose v2
+mkdir -p ~/.docker/cli-plugins/
+curl -SL https://github.com/docker/compose/releases/download/v2.0.0-rc.3/docker-compose-linux-arm64 -o ~/.docker/cli-plugins/docker-compose
+chmod +x ~/.docker/cli-plugins/docker-compose
+
 # Prepare folders
 mkdir -p ${local.grafana_root}
 sudo mkdir -p /var/{lib,log}/grafana
@@ -71,14 +76,15 @@ sudo usermod -a -G docker ${var.ops_user}
 cat <<-TEMPLATE | sudo tee -a /etc/systemd/system/grafana.service
 [Unit]
 Description="Grafana service"
-After=network.target
+Requires=docker.service
+After=network.target docker.service
 
 [Service]
 Type=simple
 User=${var.ops_user}
 Environment=GRAFANA_PROXY_PORT=${var.grafana_proxy_port}
 Environment=GRAFANA_ROOT=${local.grafana_root}
-ExecStart=/usr/local/bin/docker-compose -f /home/${var.ops_user}/docker-compose.yml up
+ExecStart=/usr/bin/docker compose -f /home/${var.ops_user}/docker-compose.yml up
 Restart=on-failure
 
 [Install]
@@ -95,7 +101,7 @@ EOS
 resource "aws_key_pair" "local" {
   count      = var.instance_key_name_local == "" ? 0 : 1
   key_name   = var.instance_key_name_local
-  public_key = file("~/.ssh/${var.instance_key_name_local}.pub")
+  public_key = var.instance_key_pub != "" ? var.instance_key_pub : file("~/.ssh/${var.instance_key_name_local}.pub")
 }
 
 

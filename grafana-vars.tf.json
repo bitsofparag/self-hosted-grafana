@@ -55,7 +55,7 @@
     },
     {
       "instance_type": {
-        "default": "t3a.micro",
+        "default": "t4g.small",
         "description": "Choose from t4g < t3a < t3 on pricing (micro/small/medium)",
         "type": "string"
       }
@@ -64,6 +64,13 @@
       "instance_key_name_local": {
         "default": "",
         "description": "The ssh keypair name (on your local machine) that is provided to the instance. Conflicts with `instance_key_name_aws`.",
+        "type": "string"
+      }
+    },
+    {
+      "instance_key_pub": {
+        "default": "",
+        "description": "The public key (user-provided as string) to set in the instance. If empty, the local ~/.ssh folder will be read.",
         "type": "string"
       }
     },

@@ -55,7 +55,7 @@ variable "ami_name" {
 
 variable "instance_type" {
   type    = string
-  default = "t3.micro"
+  default = "t4g.small"
 }
 
 variable "nginx_version" {
@@ -63,9 +63,9 @@ variable "nginx_version" {
   default = env("NGINX_VERSION")
 }
 
-variable "docker_compose_version" {
+variable "image_version" {
   type = string
-  default = env("DOCKER_COMPOSE_VERSION")
+  default = env("IMAGE_VERSION")
 }
 
 variable "ssh_username" {
@@ -82,7 +82,7 @@ locals { timestamp = regex_replace(timestamp(), "[- TZ:]", "") }
 # https://www.packer.io/docs/templates/hcl_templates/blocks/source
 source "amazon-ebs" "docker" {
   access_key                  = var.aws_access_key_id
-  ami_name                    = "aws-docker-${local.timestamp}"
+  ami_name                    = "aws-docker-${var.image_version}-${local.timestamp}"
   associate_public_ip_address = false
   instance_type               = var.instance_type
   profile                     = var.aws_profile
@@ -94,14 +94,14 @@ source "amazon-ebs" "docker" {
     CreatedAt = local.timestamp
     Name      = var.ami_name
     Release   = local.timestamp
-    Version   = var.docker_compose_version
+    Version   = var.image_version
     Service   = "ami"
   }
 }
 
 source "amazon-ebs" "docker-nginx" {
   access_key                  = var.aws_access_key_id
-  ami_name                    = "aws-docker-nginx-${local.timestamp}"
+  ami_name                    = "aws-docker-nginx-${var.image_version}-${local.timestamp}"
   associate_public_ip_address = false
   instance_type               = var.instance_type
   profile                     = var.aws_profile
@@ -113,7 +113,7 @@ source "amazon-ebs" "docker-nginx" {
     CreatedAt = local.timestamp
     Name      = var.ami_name
     Release   = local.timestamp
-    Version   = var.nginx_version
+    Version   = "${var.image_version}-${var.nginx_version}"
     Service   = "ami"
   }
 }
@@ -132,7 +132,7 @@ build {
   }
 
   provisioner "shell" {
-    environment_vars = ["DOCKER_COMPOSE_VERSION=${var.docker_compose_version}"]
+    environment_vars = ["IMAGE_VERSION=${var.image_version}"]
     execute_command  = "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}"
     pause_before     = "5s"
     scripts          = ["${var.provision_root}/scripts/install/install-docker.sh"]
@@ -185,7 +185,6 @@ build {
   }
 
   provisioner "shell" {
-    environment_vars = ["DOCKER_COMPOSE_VERSION=${var.docker_compose_version}"]
     execute_command  = "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}"
     pause_before     = "5s"
     scripts          = ["${var.provision_root}/scripts/install/install-docker.sh"]

@@ -8,15 +8,17 @@ So, here's some scripts to help you set it up on your favorite cloud provider (*
 
 ## Pre-requisites
 
-1. Ensure you have CLI access to your [cloud
+1. Fork this project on Github. If you cannot fork, clone it locally and set a different remote to your git provider.
+
+2. Ensure you have CLI access to your [cloud
    provider](https://en.wikipedia.org/wiki/Category:Cloud_computing_providers). For e.g, for AWS you
    will need the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` in order to deploy resources to AWS.`
 
-2. Install [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli#install-terraform).
+3. Install [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli#install-terraform).
 
-3. Install [Packer](https://learn.hashicorp.com/tutorials/packer/get-started-install-cli?in=packer/aws-get-started#installing-packer) to build [AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html).
+4. Install [Packer](https://learn.hashicorp.com/tutorials/packer/get-started-install-cli?in=packer/aws-get-started#installing-packer) to build [AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html).
 
-4. If you want to access the Grafana instance via SSH, ensure you have an SSH key pair in `~/.ssh`.
+5. If you want to access the Grafana instance via SSH, ensure you have an SSH key pair in `~/.ssh`.
    You can generate one with:
    ```
    ssh-keygen -t rsa -b 4096 -N '' -C foo@example.com -m PEM -f ~/.ssh/key_name_ec2
@@ -89,39 +91,39 @@ TBA
 
 # Troubleshooting
 
-1. Token not found for Terraform Cloud
+### Token not found for Terraform Cloud
 
-```
-│ Error: Required token could not be found
-│
-│ Run the following command to generate a token for app.terraform.io:
-│     terraform login
-```
+    ```
+    │ Error: Required token could not be found
+    │
+    │ Run the following command to generate a token for app.terraform.io:
+    │     terraform login
+    ```
 
-If you have the Terraform Cloud user token, set the `TFC_TOKEN` in `.env` file.
+    If you have the Terraform Cloud user token, set the `TFC_TOKEN` in `.env` file.
 
-Alternately, `export TF_CLI_CONFIG_FILE=$HOME/.terraformrc` with the correct credentials. See [here](https://www.terraform.io/docs/cli/config/config-file.html)
-for a better understanding.
+    Alternately, `export TF_CLI_CONFIG_FILE=$HOME/.terraformrc` with the correct credentials. See [here](https://www.terraform.io/docs/cli/config/config-file.html)
+    for a better understanding.
 
-Or run `terraform login` to generate a new token and use that for the commands.
+    Or run `terraform login` to generate a new token and use that for the commands.
 
-2. Backend configuration error messages
+### Backend configuration error messages
 
-```
-Error: Backend configuration changed
+    ```
+    Error: Backend configuration changed
 
-...
-Error: Backend initialization required, please run "terraform init"
-```
+    ...
+    Error: Backend initialization required, please run "terraform init"
+    ```
 
-This happens when your `backend.tf` file has a different configuration from what you used in the
-previous deployment. This can be rectified by reconfiguring the backend in one of the following
-ways:
+    This happens when your `backend.tf` file has a different configuration from what you used in the
+    previous deployment. This can be rectified by reconfiguring the backend in one of the following
+    ways:
 
-- Check the state files to see which backend was used previously and update the `backend.tf` file
-  accordingly.
+    - Check the state files to see which backend was used previously and update the `backend.tf` file
+      accordingly.
 
-- If a new backend is to be used, then run `terraform init -reconfigure` from the CLI
+    - If a new backend is to be used, then run `terraform init -reconfigure` from the CLI
 
 
 # Planned (in order)
