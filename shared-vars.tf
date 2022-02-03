@@ -16,7 +16,7 @@ variable "default_region" {
 
 variable "organization" {
   type        = string
-  default     = "foo"
+  default     = "acme"
   description = "The organization name where this workspace is created."
 }
 
@@ -24,13 +24,19 @@ variable "organization" {
 variable "project" {
   type        = string
   default     = "foo"
-  description = "Project name (e.g `concr`)"
+  description = "Project SHORT name or namespace used in labels name (e.g `acme`). Same as `project_namespace`"
+}
+
+variable "project_namespace" {
+  type        = string
+  default     = "foo"
+  description = "Short project namespace (e.g `acme`) used in labels"
 }
 
 variable "environment" {
   type        = string
-  default     = ""
-  description = "Environment (e.g. `production`, `testing`, `staging`)."
+  default     = "dev"
+  description = "Environment (e.g. `dev` or `prod`). No 'stg' env for data-collection."
 }
 
 variable "tags" {
@@ -38,3 +44,19 @@ variable "tags" {
   default     = {}
   description = "Additional tags, for e.g. {\"network\" = \"vpc\"}."
 }
+
+variable "AWS_ACCESS_KEY_ID" {
+  type    = string
+  default = ""
+}
+
+variable "AWS_SECRET_ACCESS_KEY" {
+  type    = string
+  default = ""
+}
+
+variable "key_pair_name" {
+  type    = string
+  default = "foo_ec2"
+}
+
