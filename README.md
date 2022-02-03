@@ -1,4 +1,4 @@
-# Make me Grafana
+# Self-hosted Grafana
 
 Grafana is great. For not-too-heavy visualizations and prettier versions of your spreadsheet data 🙌
 
