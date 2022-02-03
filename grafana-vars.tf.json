@@ -14,7 +14,7 @@
     },
     {
       "ops_user": {
-        "default": "ubuntu",
+        "default": "",
         "type": "string"
       }
     },
@@ -27,14 +27,21 @@
     },
     {
       "grafana_version": {
-        "default": "7.1.5",
+        "default": "8.3.4",
         "description": "Check software versions at https://grafana.com/docs/grafana/latest/release-notes/",
         "type": "string"
       }
     },
     {
+      "compose_version": {
+        "default": "2.2.3",
+        "description": "Check software versions at https://github.com/docker/compose/releases/",
+        "type": "string"
+      }
+    },
+    {
       "grafana_proxy_port": {
-        "default": "3010",
+        "default": "",
         "description": "Set this to the port you want to proxy the Grafana server on.",
         "type": "string"
       }
