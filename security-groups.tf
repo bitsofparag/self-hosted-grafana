@@ -1,7 +1,7 @@
 # https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateSecurityGroup.html
 resource "aws_security_group" "grafana_proxy_public_this" {
   vpc_id = local.vpc_id
-  name   = "sec-grp-${local.label}"
+  name   = "sec-grp-http-${local.label}"
 
   ingress {
     from_port   = var.grafana_proxy_port
@@ -20,14 +20,14 @@ resource "aws_security_group" "grafana_proxy_public_this" {
     description      = "ec2 to public"
   }
 
-  tags = { "Name" : "sec-grp-${local.label}" }
+  tags = { "Name" : "sec-grp-http-${local.label}", "Environment" : var.environment }
 }
 
 # https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateSecurityGroup.html
 resource "aws_security_group" "grafana_ssh_public_this" {
   count  = var.instance_ssh_enabled != "true" ? 0 : 1
   vpc_id = local.vpc_id
-  name   = "sec-grp-${local.label}-ssh"
+  name   = "sec-grp-ssh-${local.label}"
 
   ingress {
     from_port   = 22
@@ -37,5 +37,5 @@ resource "aws_security_group" "grafana_ssh_public_this" {
     description = "public ssh to ec2 (via 22)"
   }
 
-  tags = { "Name" : "sec-grp-${local.label}-ssh" }
+  tags = { "Name" : "sec-grp-ssh-${local.label}", "Environment" : var.environment }
 }

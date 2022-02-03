@@ -1,6 +1,6 @@
-#===============================================
-# Shared vars
-#===============================================
+#=================================================
+# Don't modify this - use .tfvars file or env vars
+#=================================================
 ## Provider vars
 variable "profile" {
   description = "AWS user authorized to manage deployments"
@@ -59,4 +59,3 @@ variable "key_pair_name" {
   type    = string
   default = "foo_ec2"
 }
-

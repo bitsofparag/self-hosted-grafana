@@ -1,5 +1,5 @@
 locals {
-  label = "grafana-${var.project_namespace}"
+  label = "grafana-${var.environment}-${var.project_namespace}"
 }
 
 
@@ -123,7 +123,7 @@ data "aws_ami" "this" {
 # Creates an EBS-optimized, General purpose EC2 instance (but no addl. volume attached)
 module "grafana_dashboard" {
   source  = "terraform-aws-modules/ec2-instance/aws"
-  version = "~> 2.19.0"
+  version = "~> 3.0.0"
 
   name           = "ec2-${local.label}"
   instance_count = 1
@@ -146,5 +146,5 @@ module "grafana_dashboard" {
       delete_on_termination = false
     }
   ]
-  tags = { "Name" : "ec2-${local.label}" }
+  tags = { "Name" : "ec2-${local.label}", "Environment" : var.environment }
 }

@@ -1,12 +1,6 @@
 {
   "variable": [
     {
-      "project_namespace": {
-        "default": "",
-        "type": "string"
-      }
-    },
-    {
       "ops_email": {
         "default": "tech@foo.xyz",
         "type": "string"
