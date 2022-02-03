@@ -125,10 +125,9 @@ module "grafana_dashboard" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 3.0.0"
 
-  name           = "ec2-${local.label}"
-  instance_count = 1
-  ami            = var.instance_ami_id != "" ? var.instance_ami_id : data.aws_ami.this.id
-  instance_type  = var.instance_type
+  name          = "ec2-${local.label}"
+  ami           = var.instance_ami_id != "" ? var.instance_ami_id : data.aws_ami.this.id
+  instance_type = var.instance_type
 
   key_name   = var.instance_key_name_local != "" ? var.instance_key_name_local : var.instance_key_name_aws
   monitoring = true
