@@ -52,7 +52,7 @@ GRAFANA_CONFIG=${local.grafana_root}/grafana.ini
 
 # Install docker compose v2
 mkdir -p ~/.docker/cli-plugins/
-curl -SL https://github.com/docker/compose/releases/download/v${var.compose_version}/docker-compose-linux-arm64 -o ~/.docker/cli-plugins/docker-compose
+curl -SL https://github.com/docker/compose/releases/download/v${var.compose_version}/docker-compose-linux-aarch64 -o ~/.docker/cli-plugins/docker-compose
 chmod +x ~/.docker/cli-plugins/docker-compose
 
 # Prepare folders
